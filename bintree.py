@@ -29,7 +29,8 @@ class bintree:
       exception will be raised.
     insert: Inserts a new node into the tree at the appropriate point,
       with a payload of 'data'. Will raise a TypeError if the type of
-      'data' is different then that of the root node.
+      'data' is different then that of the root node, unless both are
+      numbers.
     inorder: Performs an inorder traversal of the tree's nodes, applying
       'func' to the data of each.
 
@@ -43,7 +44,7 @@ class bintree:
             for xx in data[1:]:
                 self.insert(xx)
     def insert(self, data):
-        if type(data) != type(self.root.data):
+        if type(data) != type(self.root.data) and not (hasattr(data, '__int__') and hasattr(self.root.data, '__int__')):
             raise TypeError('Mismatch between inserted type (%s) and type of root (%s)' % (type(data).__name__, type(self.root.data).__name__))
         else:
             curNode = self.root
