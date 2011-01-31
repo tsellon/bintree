@@ -1,8 +1,17 @@
+# Sorted Binary Tree library
+# For usage, take a look at the example code in the main section.
 import sys
 
 LEFT = 0
 RIGHT = 1
 class binnode:
+    """
+    Object representing a single node in a binary tree.
+
+    self.data: The data associated with this node
+    self.children: Child nodes of this node. Children can be accessed
+      by self[LEFT] and self[RIGHT]
+    """
     def __init__(self, data):
         self.data = data
         self.children = [None,None]
@@ -11,6 +20,21 @@ class binnode:
     def __setitem__(self, side, data):
         self.children[side] = data
 class bintree:
+    """
+    Object representing a sorted binary tree.
+
+    self.root: The tree's root node.
+    init takes either a single data point, or an array. If an array,
+      all items must be of the same type, otherwise a TypeError
+      exception will be raised.
+    insert: Inserts a new node into the tree at the appropriate point,
+      with a payload of 'data'. Will raise a TypeError if the type of
+      'data' is different then that of the root node.
+    inorder: Performs an inorder traversal of the tree's nodes, applying
+      'func' to the data of each.
+
+    Exceptions: TypeError
+    """
     def __init__(self, data):
         if type(data) != list:
             self.root = binnode(data)
