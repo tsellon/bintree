@@ -27,7 +27,8 @@ class bintree:
     self.root: The tree's root node.
     init takes either a single data point, or an array. If an array,
       all items must be of the same type, otherwise a TypeError
-      exception will be raised.
+      exception will be raised. Optionally, the nodetype argument can
+      specify a subclass of binnode to use for all node instantiations.
     insert: Inserts a new node into the tree at the appropriate point,
       with a payload of 'data'. Will raise a TypeError if the type of
       'data' is different then that of the root node, unless both are
@@ -37,15 +38,19 @@ class bintree:
 
     Exceptions: TypeError
     """
-    def __init__(self, data):
-        if type(data) != list:
-            self.root = binnode(data)
+    def __init__(self, data, nodetype=binnode):
+        if issubclass(nodetype, binnode):
+            self.nodetype = nodetype
+            if type(data) != list:
+                self.root = self.nodetype(data)
+            else:
+                self.root = self.nodetype(data[0])
+                for xx in data[1:]:
+                    self.insert(xx)
         else:
-            self.root = binnode(data[0])
-            for xx in data[1:]:
-                self.insert(xx)
+            raise TypeError("nodetype must derive from binnode")
     def insert(self, data):
-        newnode = binnode(data)
+        newnode = self.nodetype(data)
         if type(data) != type(self.root.data) and not (hasattr(data, '__int__') and hasattr(self.root.data, '__int__')):
             raise TypeError('Mismatch between inserted type (%s) and type of root (%s)' % (type(data).__name__, type(self.root.data).__name__))
         else:
