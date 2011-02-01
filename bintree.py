@@ -39,34 +39,37 @@ class bintree:
     Exceptions: TypeError
     """
     def __init__(self, data, nodetype=binnode):
+        self.root = None
         if issubclass(nodetype, binnode):
             self.nodetype = nodetype
             if type(data) != list:
-                self.root = self.nodetype(data)
+                insert(data)
             else:
-                self.root = self.nodetype(data[0])
-                for xx in data[1:]:
+                for xx in data:
                     self.insert(xx)
         else:
             raise TypeError("nodetype must derive from binnode")
     def insert(self, data):
         newnode = self.nodetype(data)
-        if type(data) != type(self.root.data) and not (hasattr(data, '__int__') and hasattr(self.root.data, '__int__')):
-            raise TypeError('Mismatch between inserted type (%s) and type of root (%s)' % (type(data).__name__, type(self.root.data).__name__))
+        if self.root:
+            if type(data) != type(self.root.data) and not (hasattr(data, '__int__') and hasattr(self.root.data, '__int__')):
+                raise TypeError('Mismatch between inserted type (%s) and type of root (%s)' % (type(data).__name__, type(self.root.data).__name__))
+            else:
+                curNode = self.root
+                inserted = False
+                while not inserted:
+                    if data < curNode.data:
+                        side = LEFT
+                    else:
+                        side = RIGHT
+                    if curNode[side] == None:
+                        curNode[side] = newnode
+                        newnode.parent = curNode
+                        inserted = True
+                    else:
+                        curNode = curNode[side]
         else:
-            curNode = self.root
-            inserted = False
-            while not inserted:
-                if data < curNode.data:
-                    side = LEFT
-                else:
-                    side = RIGHT
-                if curNode[side] == None:
-                    curNode[side] = newnode
-                    newnode.parent = curNode
-                    inserted = True
-                else:
-                    curNode = curNode[side]
+            self.root = newnode
         return newnode
     def inorder(self, func):
         self.inorder_helper(func, self.root)
@@ -76,6 +79,19 @@ class bintree:
         func(node.data)
         if node[RIGHT]:
             self.inorder_helper(func, node[RIGHT])
+    def getnode(self, data):
+        curnode = self.root
+        searching = True
+        while searching:
+            if curnode == None:
+                searching = False
+            elif curnode.data == data:
+                searching = False
+            elif curnode.data > data:
+                curnode = curnode[LEFT]
+            else:
+                curnode = curnode[RIGHT]
+        return curnode
 if __name__ == '__main__':
     testsets = [ [['foo', 'bar', 'fro', 'baz', 'zed'], 1],
                  [[2, 1, 1.5, -3.0, 4.123456598, -9999999], 'asdf']]
