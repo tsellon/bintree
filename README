@@ -1,3 +1,1 @@
-Not much to say. Just your run of the mill binary tree implementation. Was looking
-at red-black trees and wanted to refresh myself on the simple case before tacking
-the harder one.
+Wanted to refresh myself on basic data structures. So thought I'd go through the process of writing up tree implementations. The first is a simple, sorted, binary tree. Next up will be a red/black tree.
