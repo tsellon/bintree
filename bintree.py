@@ -15,6 +15,7 @@ class binnode:
     def __init__(self, data):
         self.data = data
         self.children = [None,None]
+        self.parent = None
     def __getitem__(self, side):
         return self.children[side]
     def __setitem__(self, side, data):
@@ -44,6 +45,7 @@ class bintree:
             for xx in data[1:]:
                 self.insert(xx)
     def insert(self, data):
+        newnode = binnode(data)
         if type(data) != type(self.root.data) and not (hasattr(data, '__int__') and hasattr(self.root.data, '__int__')):
             raise TypeError('Mismatch between inserted type (%s) and type of root (%s)' % (type(data).__name__, type(self.root.data).__name__))
         else:
@@ -55,10 +57,12 @@ class bintree:
                 else:
                     side = RIGHT
                 if curNode[side] == None:
-                    curNode[side] = binnode(data)
+                    curNode[side] = newnode
+                    newnode.parent = curNode
                     inserted = True
                 else:
                     curNode = curNode[side]
+        return newnode
     def inorder(self, func):
         self.inorder_helper(func, self.root)
     def inorder_helper(self, func, node):
@@ -68,10 +72,15 @@ class bintree:
         if node[RIGHT]:
             self.inorder_helper(func, node[RIGHT])
 if __name__ == '__main__':
-    foo = bintree(['foo', 'bar', 'fro', 'baz', 'zed'])
-    print "An in order traversal of the tree:"
-    foo.inorder(lambda(x): sys.stdout.write('%s\n'%x))
-    try:
-        foo.insert(1)
-    except TypeError:
-        print "Can't insert an int into a tree of strings."
+    testsets = [ [['foo', 'bar', 'fro', 'baz', 'zed'], 1],
+                 [[2, 1, 1.5, -3.0, 4.123456598, -9999999], 'asdf']]
+    print "Running test sets:"
+    for test in testsets:
+        print ""
+        atree = bintree(test[0])
+        print "An in order traversal of the tree:"
+        atree.inorder(lambda(x): sys.stdout.write('%s\n'%x))
+        try:
+            atree.insert(test[1])
+        except TypeError:
+            print "ERROR: Can't insert type %s into this list" % type(test[1]).__name__
