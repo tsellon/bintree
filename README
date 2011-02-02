@@ -1,6 +1,6 @@
 A place to keep tree implementations.
   bintree.py contains a sorted binary tree implementation
-  rbtree.py contains a red-black tree implementation, which inherits
+  redblack.py contains a red-black tree implementation, which inherits
     from the bintree implementation.
 
 Things which I still need to add:
