@@ -12,3 +12,6 @@ Motivation behind this:
   Realized that I couldn't remember how red-black trees worked, and
   so decided to write one as a refresher. This isn't intended for a
   production system, but as a learning toy.
+
+red-black tree implementation based off of the wikipedia example:
+  http://en.wikipedia.org/wiki/Red-black_tree
