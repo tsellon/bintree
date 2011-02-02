@@ -1,1 +1,14 @@
-Wanted to refresh myself on basic data structures. So thought I'd go through the process of writing up tree implementations. The first is a simple, sorted, binary tree. Next up will be a red/black tree.
+A place to keep tree implementations.
+  bintree.py contains a sorted binary tree implementation
+  rbtree.py contains a red-black tree implementation, which inherits
+    from the bintree implementation.
+
+Things which I still need to add:
+  * Node deletion
+  * Allow overriding of default comparison operator
+  * Allow building from data structures other than lists
+
+Motivation behind this:
+  Realized that I couldn't remember how red-black trees worked, and
+  so decided to write one as a refresher. This isn't intended for a
+  production system, but as a learning toy.
