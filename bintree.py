@@ -79,6 +79,36 @@ class bintree:
         func(node.data)
         if node[RIGHT]:
             self.inorder_helper(func, node[RIGHT])
+    def removenode(self, data):
+        node = self.getnode(data)
+        minmaxnode = None
+        minmaxchild = None
+        if node:
+            if node[LEFT]:
+                minmaxnode = node[LEFT]
+                while minmaxnode[RIGHT]:
+                    minmaxnode = minmaxnode[RIGHT]
+                minmaxchild = minmaxnode[LEFT]
+            elif node[RIGHT]:
+                minmaxnode = node[RIGHT]
+                while minmaxnode[LEFT]:
+                    minmaxnode = minmaxnode[LEFT]
+                minmaxchild = minmaxnode[RIGHT]
+            if minmaxnode:
+                node.data = minmaxnode.data
+                if minmaxnode == minmaxnode.parent[RIGHT]:
+                    minmaxnode.parent[RIGHT] = minmaxchild
+                else:
+                    minmaxnode.parent[LEFT] = minmaxchild
+                if minmaxchild:
+                    minmaxchild.parent = minmaxnode.parent
+            else:
+                if node.parent[LEFT] == node:
+                    node.parent[LEFT] = None
+                else:
+                    node.parent[RIGHT] = None
+        else:
+            raise ValueError("No node found for that data (%s)." % data)
     def getnode(self, data):
         curnode = self.root
         searching = True
